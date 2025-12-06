@@ -94,9 +94,6 @@ public:
     bool isRunning() const noexcept;
     TaskHandle_t handle() const noexcept;
 
-    void suspend();
-    void resume();
-
     void requestStop() noexcept;
     bool stopRequested() const noexcept;
 
@@ -121,7 +118,7 @@ private:
 - エラー時: `start` が失敗した場合は状態を `Idle` に保ち、ハンドルを握らない。
 
 ### スレッドセーフティ方針
-- 本ライブラリは基本的にスレッドセーフではない。`start/stop/suspend/resume` などの管理操作は単一タスク（所有者）からのみ呼ぶ前提。
+- 本ライブラリは基本的にスレッドセーフではない。`start` などの管理操作は単一タスク（所有者）からのみ呼ぶ前提。
 - 例外として `requestStop()`/`stopRequested()`/`isRunning()` は他タスクから読んでよい程度の最小限のクロスコールを許容。
 - ISR からの呼び出しは不可。他タスクから操作したい場合は FreeRTOS の通知や AutoSync (Queue/Notify/Semaphore) などスレッドセーフな手段でタスク間通信して対処する。
 
@@ -224,6 +221,7 @@ consumer.startLoop(
 - requestStop による協調停止
 - デストラクタで強制終了しない
 - ISR から呼ばない（同期は AutoSync を使う）
+- suspend/resume は提供しない（停止は requestStop と協調終了で行う）
 
 ---
 
