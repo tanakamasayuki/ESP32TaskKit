@@ -124,6 +124,13 @@ private:
 - 例外として `requestStop()`/`stopRequested()`/`isRunning()` は他タスクから読んでよい程度の最小限のクロスコールを許容。
 - ISR からの呼び出しは不可。他タスクから操作したい場合は FreeRTOS の通知や AutoSync (Queue/Notify/Semaphore) などスレッドセーフな手段でタスク間通信して対処する。
 
+### エラーハンドリング / ロギング
+- `start`/`startLoop` の戻り値は成功/失敗の bool。失敗時は状態を `Idle` のまま保持。主な失敗要因は無効な `priority`/`core`、メモリ不足（スタック確保失敗）、`xTaskCreate` 系のエラー。
+- ロギングはデフォルト抑制とし、`ESP32TASKKIT_ENABLE_LOG` 定義時のみ有効化。Arduino では `Serial.println` 等で失敗理由を出す想定（ESP-IDF には対応しない）。
+- 失敗理由を取得する軽量 API（例: `getLastError()` / `TaskResult`）は将来追加の候補。現状はログと戻り値で判定する。
+
+※ 本ライブラリは Arduino 環境専用。ESP-IDF 向けには対応しない。
+
 ---
 
 ## 6. 使用例
