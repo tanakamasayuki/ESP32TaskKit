@@ -126,7 +126,11 @@ private:
 
 ### エラーハンドリング / ロギング
 - `start`/`startLoop` の戻り値は成功/失敗の bool。失敗時は状態を `Idle` のまま保持。主な失敗要因は無効な `priority`/`core`、メモリ不足（スタック確保失敗）、`xTaskCreate` 系のエラー。
-- ロギングはデフォルト抑制とし、`ESP32TASKKIT_ENABLE_LOG` 定義時のみ有効化。Arduino では `Serial.println` 等で失敗理由を出す想定（ESP-IDF には対応しない）。
+- ロギングは常に有効とし、Arduino 環境でも使える ESP-IDF のログマクロ `ESP_LOGE/W/I/D/V` を利用する。
+- 主なログの目安:
+  - `ESP_LOGE`: `start failed: invalid priority=%u core=%d`、`start failed: xTaskCreate err=%d`、`startLoop failed: alloc functor`
+  - `ESP_LOGW`: `start called while running`、`destroying running task`
+  - `ESP_LOGI/D`: タスク開始/終了などの状態遷移（必要に応じて）
 - 失敗理由を取得する軽量 API（例: `getLastError()` / `TaskResult`）は将来追加の候補。現状はログと戻り値で判定する。
 
 ### ラムダ/ファンクタのメモリと例外
