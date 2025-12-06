@@ -118,7 +118,7 @@ private:
 
 ### startLoop の挙動メモ
 - `loopFunc` が `false` を返した時点でループ終了（タスク終了）。
-- `periodMs > 0` なら `vTaskDelayUntil` で等間隔実行。
+- `periodMs > 0` なら `vTaskDelayUntil` で等間隔実行（デフォルト 1ms は WDT 回避と CPU 占有抑制のための最小値）。
 - `periodMs == 0` ではディレイを呼ばずノンウエイトで回す（WDT 回避のため最低でも 1ms 以上を推奨し、0 を指定する場合はループ内で適宜 `delay()` などを呼ぶ必要あり）。
 
 ### ライフサイクルと終了メモ
@@ -134,6 +134,7 @@ private:
 - 例外として `requestStop()`/`stopRequested()`/`isRunning()` は他タスクから読んでよい程度の最小限のクロスコールを許容。
 - ISR からの呼び出しは不可。他タスクから操作したい場合は FreeRTOS の通知や AutoSync (Queue/Notify/Semaphore) などスレッドセーフな手段でタスク間通信して対処する。
 - `handle()` で取得した `TaskHandle_t` に直接 FreeRTOS API を呼ぶことは可能だが、ライブラリの状態管理とズレるため非推奨（例: 外部から `vTaskDelete` すると内部フラグが更新されない）。
+- 内部フラグ（`_running`/`_stopRequested`）は Arduino 向けに通常の `bool` を用いる。クロスコールはベストエフォートで、厳密な排他が必要なら利用者側で同期を挟む。
 
 ### エラーハンドリング / ロギング
 - `start`/`startLoop` の戻り値は成功/失敗の bool。失敗時は状態を `Idle` のまま保持。主な失敗要因は無効な `priority`/`core`、メモリ不足（スタック確保失敗）、`xTaskCreate` 系のエラー。
