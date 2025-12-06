@@ -67,6 +67,7 @@ struct TaskConfig {
 - `ARDUINO_RUNNING_CORE` は Arduino の `loop()` が動くコア番号（多くのボードで 1）。同じコアで動かしたい場合に指定できる。
 - `priority` は FreeRTOS の 0（Idle）〜`configMAX_PRIORITIES-1` の範囲。Arduino の `loop()` は通常 1 なので、デフォルトで 2 を割り当て、リアルタイム性が必要なタスクは 2 以上を目安にする。
 - `name` は FreeRTOS のタスク名（`configMAX_TASK_NAME_LEN` 文字まで）。Arduino 環境では標準のシリアルログでは見えず、`vTaskList` や JTAG/デバッガで確認する用途が中心。
+- コア検証: デュアルコアなら `core` は 0/1/tskNO_AFFINITY のみ許容。シングルコア（`CONFIG_FREERTOS_UNICORE` 等が有効）では 0/tskNO_AFFINITY のみ許容。
 
 ---
 
@@ -131,6 +132,7 @@ private:
   - `ESP_LOGE`: `start failed: invalid priority=%u core=%d`、`start failed: xTaskCreate err=%d`、`startLoop failed: alloc functor`
   - `ESP_LOGW`: `start called while running`、`destroying running task`
   - `ESP_LOGI/D`: タスク開始/終了などの状態遷移（必要に応じて）
+- バリデーションは「範囲外なら失敗」でクランプしない。`priority` は 0〜`configMAX_PRIORITIES-1`、`core` は上記許容範囲外の場合 `start` を失敗させログを出す。
 - 失敗理由を取得する軽量 API（例: `getLastError()` / `TaskResult`）は将来追加の候補。現状はログと戻り値で判定する。
 
 ### ラムダ/ファンクタのメモリと例外
