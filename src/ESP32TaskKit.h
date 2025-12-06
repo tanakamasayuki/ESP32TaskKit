@@ -70,6 +70,8 @@ namespace TaskKit
         static bool validatePriority(UBaseType_t priority);
         void onTaskExit() noexcept;
 
+        static constexpr size_t kAutoNameBufLen = configMAX_TASK_NAME_LEN + 12; // room for prefix + uint32_t + null
+
         TaskHandle_t _handle;
         bool _running;
         bool _stopRequested;
@@ -114,7 +116,7 @@ namespace TaskKit
         }
 
         const char *name = cfg.name;
-        char nameBuf[configMAX_TASK_NAME_LEN] = {0};
+        char nameBuf[kAutoNameBufLen] = {0};
         if (!name || name[0] == '\0')
         {
             int id = ++_autoNameCounter;
@@ -262,7 +264,7 @@ namespace TaskKit
         }
 
         const char *name = cfg.name;
-        char nameBuf[configMAX_TASK_NAME_LEN] = {0};
+        char nameBuf[kAutoNameBufLen] = {0};
         if (!name || name[0] == '\0')
         {
             int id = ++_autoNameCounter;
