@@ -5,6 +5,7 @@
 #include <new>
 #include <functional>
 #include <utility>
+#include <cstdio>
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -18,7 +19,7 @@ namespace TaskKit
 
     struct TaskConfig
     {
-        const char *name = "TaskKitTask";
+        const char *name = "";
         uint32_t stackSize = ARDUINO_LOOP_STACK_SIZE; // 8192 words
         UBaseType_t priority = 2;
         int core = tskNO_AFFINITY;
@@ -72,6 +73,7 @@ namespace TaskKit
         TaskHandle_t _handle;
         bool _running;
         bool _stopRequested;
+        inline static int _autoNameCounter = 0;
     };
 
     inline constexpr const char *kLogTag = "ESP32TaskKit";
@@ -111,6 +113,15 @@ namespace TaskKit
             return false;
         }
 
+        const char *name = cfg.name;
+        char nameBuf[configMAX_TASK_NAME_LEN] = {0};
+        if (!name || name[0] == '\0')
+        {
+            int id = ++_autoNameCounter;
+            std::snprintf(nameBuf, sizeof(nameBuf), "TaskKit#%d", id);
+            name = nameBuf;
+        }
+
         auto ctx = new (std::nothrow) StartContext{this, fn, arg};
         if (!ctx)
         {
@@ -123,7 +134,7 @@ namespace TaskKit
 
         BaseType_t rc = xTaskCreatePinnedToCore(
             &Task::taskEntry,
-            cfg.name,
+            name,
             cfg.stackSize,
             ctx,
             cfg.priority,
@@ -139,7 +150,7 @@ namespace TaskKit
             return false;
         }
 
-        ESP_LOGI(kLogTag, "task started: %s", cfg.name);
+        ESP_LOGI(kLogTag, "task started: %s", name);
         return true;
     }
 
@@ -250,6 +261,15 @@ namespace TaskKit
             return false;
         }
 
+        const char *name = cfg.name;
+        char nameBuf[configMAX_TASK_NAME_LEN] = {0};
+        if (!name || name[0] == '\0')
+        {
+            int id = ++_autoNameCounter;
+            std::snprintf(nameBuf, sizeof(nameBuf), "TaskKit#%d", id);
+            name = nameBuf;
+        }
+
         auto func = std::function<bool()>(std::forward<F>(loopFunc));
         if (!func)
         {
@@ -268,7 +288,7 @@ namespace TaskKit
         _running = true;
 
         BaseType_t rc = xTaskCreatePinnedToCore(&Task::loopEntry,
-                                                cfg.name,
+                                                name,
                                                 cfg.stackSize,
                                                 ctx,
                                                 cfg.priority,
@@ -284,7 +304,7 @@ namespace TaskKit
             return false;
         }
 
-        ESP_LOGI(kLogTag, "loop task started: %s", cfg.name);
+        ESP_LOGI(kLogTag, "loop task started: %s", name);
         return true;
     }
 
