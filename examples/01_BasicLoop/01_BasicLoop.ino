@@ -7,7 +7,6 @@ void setup()
   Serial.begin(115200); // en: start serial for demo / ja: デモ用にシリアル開始
 
   TaskKit::TaskConfig cfg;
-  cfg.name = "Worker";                     // en: task name / ja: タスク名
   cfg.priority = 2;                        // en: priority (higher than loop) / ja: 優先度（loop より高め）
   cfg.stackSize = ARDUINO_LOOP_STACK_SIZE; // en: stack size in words / ja: スタックサイズ（word 単位）
   cfg.core = ARDUINO_RUNNING_CORE;         // en: pin to Arduino loop core / ja: Arduino の loop コアに固定

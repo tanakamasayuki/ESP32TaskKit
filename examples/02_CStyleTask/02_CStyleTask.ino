@@ -16,7 +16,6 @@ void setup()
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
   TaskKit::TaskConfig cfg;
-  cfg.name = "CStyle";                     // en: task name / ja: タスク名
   cfg.priority = 2;                        // en: priority / ja: 優先度
   cfg.stackSize = ARDUINO_LOOP_STACK_SIZE; // en: stack size (word) / ja: スタックサイズ（word）
   cfg.core = ARDUINO_RUNNING_CORE;         // en: pin to loop core / ja: loop コアに固定

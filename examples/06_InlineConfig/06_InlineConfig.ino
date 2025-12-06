@@ -13,7 +13,7 @@ void setup()
         return true;                                            // en: continue / ja: 継続
       },
       TaskKit::TaskConfig{
-          "InlineCfg",             // en: task name / ja: タスク名
+          "",                      // en: leave empty for auto name / ja: 空にして自動採番
           ARDUINO_LOOP_STACK_SIZE, // en: stack size (word) / ja: スタックサイズ（word）
           2,                       // en: priority / ja: 優先度
           ARDUINO_RUNNING_CORE     // en: pin to loop core / ja: loop コアに固定

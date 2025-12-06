@@ -8,13 +8,11 @@ void setup()
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
   TaskKit::TaskConfig cfgFast;
-  cfgFast.name = "Fast";                       // en: fast task name / ja: 高頻度タスク名
   cfgFast.priority = 2;                        // en: priority / ja: 優先度
   cfgFast.stackSize = ARDUINO_LOOP_STACK_SIZE; // en: stack size (word) / ja: スタックサイズ（word）
   cfgFast.core = ARDUINO_RUNNING_CORE;         // en: pin to loop core / ja: loop コアに固定
 
   TaskKit::TaskConfig cfgSlow = cfgFast;
-  cfgSlow.name = "Slow"; // en: slow task name / ja: 低頻度タスク名
 
   fastTask.startLoop(
       []()
