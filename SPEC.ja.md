@@ -103,6 +103,14 @@ private:
 - `periodMs > 0` なら `vTaskDelayUntil` で等間隔実行。
 - `periodMs == 0` ではディレイを呼ばずノンウエイトで回す（WDT 回避のため最低でも 1ms 以上を推奨し、0 を指定する場合はループ内で適宜 `delay()` などを呼ぶ必要あり）。
 
+### ライフサイクルと終了メモ
+- 状態: `Idle -> Running -> Idle` の単純遷移。`start` 成功時のみ `Running`、終了/失敗時は `Idle` のまま。
+- 再利用: 終了後は同じ `Task` インスタンスで再 `start` 可能（終了時に `_handle=null`・`_running=false` を揃える）。
+- 終了トリガ: `startLoop` は `false` を返すと終了。`requestStop()` はフラグを立てるだけなので、ループ内で `stopRequested()` を見て `return false;` する。C スタイルタスク（`start`）は自前でフラグを見て抜ける。`startLoop` はラッパ側が毎周回 `stopRequested()` をチェックし自動停止する。
+- 終了待ち: `join` は提供せず、利用者が `isRunning()` をポーリングする前提（ポーリング時は `delay()` を挟んで WDT/CPU 占有を避ける）。
+- デストラクタ: 強制終了しない方針。破棄前に利用者が停止を確認する（実行中に破棄された場合はログ/アサートで警告する程度の挙動にする）。
+- エラー時: `start` が失敗した場合は状態を `Idle` に保ち、ハンドルを握らない。
+
 ---
 
 ## 6. 使用例
