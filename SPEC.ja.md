@@ -27,6 +27,7 @@ ESP32TaskKit の主な目的は次の 3 つです。
 1. **FreeRTOS のタスクを “手書き” する負担を減らす**
 2. **C++ らしい書き方（ラムダ・functor・RAII）でタスクを書く**
 3. **タスクと同期（AutoSync）の責務を分離する**
+4. **FreeRTOS らしいきれいな使い方を身につけられるようにする（通常の用途は本ライブラリで完結し、特殊な場合は素の FreeRTOS を使ってもらう）**
 
 ---
 
@@ -121,6 +122,7 @@ private:
 - 本ライブラリは基本的にスレッドセーフではない。`start` などの管理操作は単一タスク（所有者）からのみ呼ぶ前提。
 - 例外として `requestStop()`/`stopRequested()`/`isRunning()` は他タスクから読んでよい程度の最小限のクロスコールを許容。
 - ISR からの呼び出しは不可。他タスクから操作したい場合は FreeRTOS の通知や AutoSync (Queue/Notify/Semaphore) などスレッドセーフな手段でタスク間通信して対処する。
+- `handle()` で取得した `TaskHandle_t` に直接 FreeRTOS API を呼ぶことは可能だが、ライブラリの状態管理とズレるため非推奨（例: 外部から `vTaskDelete` すると内部フラグが更新されない）。
 
 ### エラーハンドリング / ロギング
 - `start`/`startLoop` の戻り値は成功/失敗の bool。失敗時は状態を `Idle` のまま保持。主な失敗要因は無効な `priority`/`core`、メモリ不足（スタック確保失敗）、`xTaskCreate` 系のエラー。
