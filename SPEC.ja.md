@@ -54,11 +54,19 @@ ESP32TaskKit/
 ```cpp
 struct TaskConfig {
     const char*  name      = "TaskKitTask";
-    uint32_t     stackSize = 8192;
-    UBaseType_t  priority  = 1;
-    int          core      = -1;
+    uint32_t     stackSize = ARDUINO_LOOP_STACK_SIZE; // 8192 words
+    UBaseType_t  priority  = 2;
+    int          core      = tskNO_AFFINITY;
 };
 ```
+
+メモ:
+- `stackSize` はワード単位（`configSTACK_DEPTH_TYPE`）。デフォルトは `ARDUINO_LOOP_STACK_SIZE`（8192 words）。
+- `core` は数値指定を標準とし、0 が `PRO_CPU_NUM`、1 が `APP_CPU_NUM`（ESP32 の呼び分け）で分かりやすくする。
+- `core=tskNO_AFFINITY` ならコア固定せずスケジューラ任せ。固定したい場合は 0/1 を指定。
+- `ARDUINO_RUNNING_CORE` は Arduino の `loop()` が動くコア番号（多くのボードで 1）。同じコアで動かしたい場合に指定できる。
+- `priority` は FreeRTOS の 0（Idle）〜`configMAX_PRIORITIES-1` の範囲。Arduino の `loop()` は通常 1 なので、デフォルトで 2 を割り当て、リアルタイム性が必要なタスクは 2 以上を目安にする。
+- `name` は FreeRTOS のタスク名（`configMAX_TASK_NAME_LEN` 文字まで）。Arduino 環境では標準のシリアルログでは見えず、`vTaskList` や JTAG/デバッガで確認する用途が中心。
 
 ---
 
