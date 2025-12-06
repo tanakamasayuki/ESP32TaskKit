@@ -16,9 +16,8 @@ void setup()
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
   TaskKit::TaskConfig cfg;
-  cfg.priority = 2;                        // en: priority / ja: 優先度
-  cfg.stackSize = ARDUINO_LOOP_STACK_SIZE; // en: stack size (word) / ja: スタックサイズ（word）
-  cfg.core = ARDUINO_RUNNING_CORE;         // en: pin to loop core / ja: loop コアに固定
+  // en: use defaults (auto name, priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
+  // ja: デフォルトを使用（自動名、priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 
   worker.start(&WorkerTask, nullptr, cfg);
 }

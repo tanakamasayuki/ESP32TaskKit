@@ -8,9 +8,8 @@ void setup()
 
   TaskKit::TaskConfig cfg;
   cfg.name = "CustomName";                 // en: set custom task name / ja: 任意のタスク名を指定
-  cfg.priority = 2;                        // en: priority / ja: 優先度
-  cfg.stackSize = ARDUINO_LOOP_STACK_SIZE; // en: stack size (word) / ja: スタックサイズ（word）
-  cfg.core = ARDUINO_RUNNING_CORE;         // en: pin to loop core / ja: loop コアに固定
+  // en: other fields use defaults (priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
+  // ja: それ以外はデフォルト（priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 
   autoTask.startLoop(
       []()
