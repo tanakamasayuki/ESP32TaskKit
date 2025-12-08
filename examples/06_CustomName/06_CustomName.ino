@@ -7,7 +7,7 @@ void setup()
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
   TaskKit::TaskConfig cfg;
-  cfg.name = "CustomName";                 // en: set custom task name / ja: 任意のタスク名を指定
+  cfg.name = "CustomName"; // en: set custom task name / ja: 任意のタスク名を指定
   // en: other fields use defaults (priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
   // ja: それ以外はデフォルト（priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 
@@ -23,5 +23,5 @@ void setup()
 
 void loop()
 {
-  delay(1000); // en: idle loop / ja: メインループは待機
+  delay(1); // en: idle loop / ja: メインループは待機
 }

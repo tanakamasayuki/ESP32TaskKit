@@ -36,5 +36,5 @@ void setup()
 
 void loop()
 {
-  delay(1000); // en: idle loop / ja: メインループは待機
+  delay(1); // en: idle loop / ja: メインループは待機
 }

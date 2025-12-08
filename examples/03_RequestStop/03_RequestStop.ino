@@ -36,6 +36,6 @@ void loop()
 
   // en: show state
   // ja: 状態表示
-  Serial.printf("isRunning=%d\n", worker.isRunning());
+  Serial.printf("[+%lu ms] isRunning=%d isStopRequested=%d\n", millis(), worker.isRunning(), worker.isStopRequested());
   delay(500);
 }

@@ -5,6 +5,9 @@ unsigned long startedAt = 0;
 
 void WorkerTask(void *pv)
 {
+  TickType_t lastWake = xTaskGetTickCount();
+  const TickType_t period = 500; // en: fixed 500ms period / ja: 500ms の固定周期
+
   for (;;)
   {
     if (worker.isStopRequested())
@@ -14,7 +17,11 @@ void WorkerTask(void *pv)
     }
 
     Serial.printf("[+%lu ms] C-style task running\n", millis()); // en: show C-style task activity / ja: Cスタイルタスクの動作を表示
-    delay(200);                                                  // en: simulate work / ja: 処理を模擬
+    delay(10);                                                   // en: simulate 10ms work; vTaskDelayUntil keeps 500ms interval / ja: 10ms の処理を模擬。vTaskDelayUntil で周期はズレない
+
+    // en: keep a fixed period with vTaskDelayUntil (includes Serial time)
+    // ja: vTaskDelayUntil でシリアル出力時間込みの固定周期にする
+    vTaskDelayUntil(&lastWake, period);
   }
 
   Serial.printf("[+%lu ms] C-style task done\n", millis()); // en: finished message / ja: 終了メッセージ
@@ -42,6 +49,8 @@ void loop()
     worker.requestStop();
   }
 
-  Serial.printf("isRunning=%d\n", worker.isRunning()); // en: show state / ja: 状態表示
+  // en: show state
+  // ja: 状態表示
+  Serial.printf("[+%lu ms] isRunning=%d isStopRequested=%d\n", millis(), worker.isRunning(), worker.isStopRequested());
   delay(500);
 }
