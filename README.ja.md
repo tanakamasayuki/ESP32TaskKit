@@ -75,6 +75,7 @@ void setup() {
 - `examples/11_RunTimeStats` — `vTaskGetRunTimeStats` で実行時間の統計を表示
 - `examples/12_TaskSystemState` — `uxTaskGetSystemState` でタスク情報を列挙
 - `examples/13_LoopWithArgs` — startLoop から GPIO 引数付きのヘルパーを呼ぶサンプル
+- `examples/14_CStyleArgs` — FreeRTOS 的にタスク引数を渡して GPIO をトグルするサンプル
 
 ## メモ
 - `isRunning()` はライブラリが管理する状態を返し、`eTaskGetState` を直接は参照しません。

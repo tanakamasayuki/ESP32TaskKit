@@ -75,6 +75,7 @@ void setup() {
 - `examples/11_RunTimeStats` — show runtime statistics via `vTaskGetRunTimeStats`
 - `examples/12_TaskSystemState` — enumerate tasks via `uxTaskGetSystemState`
 - `examples/13_LoopWithArgs` — call a helper with GPIO arguments from `startLoop`
+- `examples/14_CStyleArgs` — FreeRTOS-style `start` with task arguments for GPIO toggle
 
 ## Notes
 - `isRunning()` reports the library-managed state (not directly `eTaskGetState`).
