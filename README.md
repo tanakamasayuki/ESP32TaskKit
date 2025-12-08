@@ -70,6 +70,8 @@ void setup() {
 - `examples/06_CustomName` — custom task names
 - `examples/07_InlineConfig` — inline TaskConfig usage
 - `examples/08_TaskState` — query FreeRTOS task state/info from loop
+- `examples/09_TaskList` — dump task list via `vTaskList`
+- `examples/10_TaskStatusArray` — inspect tasks via `pxGetTaskStatusArray`/`uxTaskGetSystemState`
 
 ## Notes
 - `isRunning()` reports the library-managed state (not directly `eTaskGetState`).

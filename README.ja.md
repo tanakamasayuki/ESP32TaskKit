@@ -70,6 +70,8 @@ void setup() {
 - `examples/06_CustomName` — タスク名の指定
 - `examples/07_InlineConfig` — TaskConfig をインライン指定
 - `examples/08_TaskState` — FreeRTOS のタスク状態/情報をループから参照
+- `examples/09_TaskList` — `vTaskList` でタスク一覧をダンプ
+- `examples/10_TaskStatusArray` — `pxGetTaskStatusArray`/`uxTaskGetSystemState` でタスク情報を列挙
 
 ## メモ
 - `isRunning()` はライブラリが管理する状態を返し、`eTaskGetState` を直接は参照しません。
