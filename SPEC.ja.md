@@ -107,7 +107,7 @@ public:
     TaskHandle_t handle() const noexcept;
 
     void requestStop() noexcept;
-    bool stopRequested() const noexcept;
+    bool isStopRequested() const noexcept;
 
 private:
     TaskHandle_t _handle;
@@ -124,14 +124,14 @@ private:
 ### ライフサイクルと終了メモ
 - 状態: `Idle -> Running -> Idle` の単純遷移。`start` 成功時のみ `Running`、終了/失敗時は `Idle` のまま。
 - 再利用: 終了後は同じ `Task` インスタンスで再 `start` 可能（終了時に `_handle=null`・`_running=false` を揃える）。
-- 終了トリガ: `startLoop` は `false` を返すと終了。`requestStop()` はフラグを立てるだけなので、ループ内で `stopRequested()` を見て `return false;` する。C スタイルタスク（`start`）は自前でフラグを見て抜ける。`startLoop` はラッパ側が毎周回 `stopRequested()` をチェックし自動停止する。
+- 終了トリガ: `startLoop` は `false` を返すと終了。`requestStop()` はフラグを立てるだけなので、ループ内で `isStopRequested()` を見て `return false;` する。C スタイルタスク（`start`）は自前でフラグを見て抜ける。`startLoop` はラッパ側が毎周回 `isStopRequested()` をチェックし自動停止する。
 - 終了待ち: `join` は提供せず、利用者が `isRunning()` をポーリングする前提（ポーリング時は `delay()` を挟んで WDT/CPU 占有を避ける）。
 - デストラクタ: 強制終了しない方針。破棄前に利用者が停止を確認する（実行中に破棄された場合はログ/アサートで警告する程度の挙動にする）。
 - エラー時: `start` が失敗した場合は状態を `Idle` に保ち、ハンドルを握らない。
 
 ### スレッドセーフティ方針
 - 本ライブラリは基本的にスレッドセーフではない。`start` などの管理操作は単一タスク（所有者）からのみ呼ぶ前提。
-- 例外として `requestStop()`/`stopRequested()`/`isRunning()` は他タスクから読んでよい程度の最小限のクロスコールを許容。
+- 例外として `requestStop()`/`isStopRequested()`/`isRunning()` は他タスクから読んでよい程度の最小限のクロスコールを許容。
 - ISR からの呼び出しは不可。他タスクから操作したい場合は FreeRTOS の通知や AutoSync (Queue/Notify/Semaphore) などスレッドセーフな手段でタスク間通信して対処する。
 - `handle()` で取得した `TaskHandle_t` に直接 FreeRTOS API を呼ぶことは可能だが、ライブラリの状態管理とズレるため非推奨（例: 外部から `vTaskDelete` すると内部フラグが更新されない）。
 - 内部フラグ（`_running`/`_stopRequested`）は Arduino 向けに通常の `bool` を用いる。クロスコールはベストエフォートで、厳密な排他が必要なら利用者側で同期を挟む。

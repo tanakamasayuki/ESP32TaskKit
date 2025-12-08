@@ -47,7 +47,7 @@ namespace TaskKit
         TaskHandle_t handle() const noexcept;
 
         void requestStop() noexcept;
-        bool stopRequested() const noexcept;
+        bool isStopRequested() const noexcept;
 
     private:
         struct StartContext
@@ -171,7 +171,7 @@ namespace TaskKit
         _stopRequested = true;
     }
 
-    inline bool Task::stopRequested() const noexcept
+    inline bool Task::isStopRequested() const noexcept
     {
         return _stopRequested;
     }
@@ -201,7 +201,7 @@ namespace TaskKit
         TickType_t lastWake = xTaskGetTickCount();
         for (;;)
         {
-            if (self->stopRequested())
+            if (self->isStopRequested())
             {
                 break;
             }
