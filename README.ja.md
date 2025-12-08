@@ -69,6 +69,7 @@ void setup() {
 - `examples/05_TwoTasks` — 2 つのループタスク
 - `examples/06_CustomName` — タスク名の指定
 - `examples/07_InlineConfig` — TaskConfig をインライン指定
+- `examples/08_TaskState` — FreeRTOS のタスク状態/情報をループから参照
 
 ## メモ
 - `isRunning()` はライブラリが管理する状態を返し、`eTaskGetState` を直接は参照しません。

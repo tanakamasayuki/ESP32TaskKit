@@ -69,6 +69,7 @@ void setup() {
 - `examples/05_TwoTasks` — two loop tasks
 - `examples/06_CustomName` — custom task names
 - `examples/07_InlineConfig` — inline TaskConfig usage
+- `examples/08_TaskState` — query FreeRTOS task state/info from loop
 
 ## Notes
 - `isRunning()` reports the library-managed state (not directly `eTaskGetState`).
