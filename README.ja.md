@@ -73,6 +73,7 @@ void setup() {
 - `examples/09_TaskList` — `vTaskList` でタスク一覧をダンプ
 - `examples/10_TaskStatusArray` — `pxGetTaskStatusArray`/`uxTaskGetSystemState` でタスク情報を列挙
 - `examples/11_RunTimeStats` — `vTaskGetRunTimeStats` で実行時間の統計を表示
+- `examples/12_TaskSystemState` — `uxTaskGetSystemState` でタスク情報を列挙
 
 ## メモ
 - `isRunning()` はライブラリが管理する状態を返し、`eTaskGetState` を直接は参照しません。

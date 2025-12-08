@@ -73,6 +73,7 @@ void setup() {
 - `examples/09_TaskList` — dump task list via `vTaskList`
 - `examples/10_TaskStatusArray` — inspect tasks via `pxGetTaskStatusArray`/`uxTaskGetSystemState`
 - `examples/11_RunTimeStats` — show runtime statistics via `vTaskGetRunTimeStats`
+- `examples/12_TaskSystemState` — enumerate tasks via `uxTaskGetSystemState`
 
 ## Notes
 - `isRunning()` reports the library-managed state (not directly `eTaskGetState`).
