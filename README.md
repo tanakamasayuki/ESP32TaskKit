@@ -74,6 +74,7 @@ void setup() {
 - `examples/10_TaskStatusArray` — inspect tasks via `pxGetTaskStatusArray`/`uxTaskGetSystemState`
 - `examples/11_RunTimeStats` — show runtime statistics via `vTaskGetRunTimeStats`
 - `examples/12_TaskSystemState` — enumerate tasks via `uxTaskGetSystemState`
+- `examples/13_LoopWithArgs` — call a helper with GPIO arguments from `startLoop`
 
 ## Notes
 - `isRunning()` reports the library-managed state (not directly `eTaskGetState`).
