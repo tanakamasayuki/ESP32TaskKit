@@ -1,6 +1,7 @@
 # ESP32TaskKit
 
 [日本語版 READMEはこちら](README.ja.md)
+English specification: [SPEC.md](SPEC.md)
 
 Lightweight helpers for running FreeRTOS tasks from Arduino on ESP32.
 

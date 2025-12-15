@@ -1,6 +1,7 @@
 # ESP32TaskKit
 
 [English README](README.md)
+日本語仕様書: [SPEC.ja.md](SPEC.ja.md)
 
 Arduino 上で ESP32 の FreeRTOS タスクを手軽に扱うための小さなヘルパーです。
 
