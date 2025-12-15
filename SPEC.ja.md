@@ -23,7 +23,7 @@ ESP32TaskKit は、ESP32（Arduino）向けの
 - ESP32AutoTask の限界: コアごとにあらかじめ決まった数のタスクスロットで運用するため、細かいタスクを多数動かす用途には不向き。コア固定や細かなライフサイクル管理はできない。
 - ESP32TaskKit の利点: Config でスタック/優先度/コアを明示し、`start`/`startLoop`/`requestStop` でライフサイクルを管理できる。ラムダや functor で C++ らしく書ける。
 - ESP32TaskKit の限界: AutoTask ほど自動化されていないので最初に少し書く必要がある。特殊な FreeRTOS 直接操作が必要な場合は素の API を使う前提。
-- 使い分け: 「簡単に動かしたい/まずは動作確認」なら AutoTask。タスクを柔軟に増やしたい・設定やライフサイクルをきれいに整えたい本番寄りのコードは TaskKit。さらに特殊な要件は素の FreeRTOS API へ。
+- 使い分け: 「簡単に動かしたい/まずは動作確認」なら AutoTask。タスクを柔軟に増やしたい・設定やライフサイクルをきれいに整えたい本番寄りのコードは ESP32TaskKit。さらに特殊な要件は素の FreeRTOS API へ。
 
 ### ESP32AutoSync との使い分け
 - 完全に独立したライブラリで相互依存はない。どちらも素の FreeRTOS API を直接呼んでよい。
@@ -78,7 +78,7 @@ struct TaskConfig {
 - `core=tskNO_AFFINITY` ならコア固定せずスケジューラ任せ。固定したい場合は 0/1 を指定。
 - `ARDUINO_RUNNING_CORE` は Arduino の `loop()` が動くコア番号（多くのボードで 1）。同じコアで動かしたい場合に指定できる。
 - `priority` は FreeRTOS の 0（Idle）〜`configMAX_PRIORITIES-1` の範囲。Arduino の `loop()` は通常 1 なので、デフォルトで 2 を割り当て、リアルタイム性が必要なタスクは 2 以上を目安にする。
-- `name` は FreeRTOS のタスク名（`configMAX_TASK_NAME_LEN` 文字まで）。未指定（空文字）の場合は `TaskKit#1` のように自動採番。Arduino 環境では標準のシリアルログでは見えず、`vTaskList` や JTAG/デバッガで確認する用途が中心。
+- `name` は FreeRTOS のタスク名（`configMAX_TASK_NAME_LEN` 文字まで）。未指定（空文字）の場合は `ESP32TaskKit#1` のように自動採番。Arduino 環境では標準のシリアルログでは見えず、`vTaskList` や JTAG/デバッガで確認する用途が中心。
 - コア検証: デュアルコアなら `core` は 0/1/tskNO_AFFINITY のみ許容。シングルコア（`CONFIG_FREERTOS_UNICORE` 等が有効）では 0/tskNO_AFFINITY のみ許容。
 
 ---
@@ -160,7 +160,7 @@ private:
 ### 6.1 C スタイルタスク
 
 ```cpp
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void WorkerTask(void* pv) {
     for (;;) {
@@ -170,7 +170,7 @@ void WorkerTask(void* pv) {
 }
 
 void setup() {
-    TaskKit::TaskConfig cfg;
+    ESP32TaskKit::TaskConfig cfg;
     cfg.name = "Worker";
     cfg.priority = 2;
 
@@ -183,7 +183,7 @@ void setup() {
 ### 6.2 ラムダタスク
 
 ```cpp
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 worker.startLoop(
     [] {
@@ -204,7 +204,7 @@ periodic.startLoop(
         readSensor();
         return true;
     },
-    TaskKit::TaskConfig{},
+    ESP32TaskKit::TaskConfig{},
     5000
 );
 ```
@@ -214,7 +214,7 @@ periodic.startLoop(
 ### 6.4 AutoSync と併用
 
 ```cpp
-TaskKit::Task consumer;
+ESP32TaskKit::Task consumer;
 AutoSync::Queue<int> q(8);
 
 consumer.startLoop(

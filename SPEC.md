@@ -19,7 +19,7 @@ ESP32TaskKit is an **"intermediate-friendly task management library"** for ESP32
 - Limits of ESP32AutoTask: runs with a predetermined number of task slots per core, so not ideal for many fine-grained tasks. Cannot pin to cores or control lifecycle in detail.
 - Strengths of ESP32TaskKit: explicitly set stack/priority/core via Config; manage lifecycle via `start`/`startLoop`/`requestStop`; write in C++ style with lambdas and functors.
 - Limits of ESP32TaskKit: less automation than AutoTask, so you write a bit more up front. If you need special FreeRTOS operations, you are expected to call the raw APIs.
-- Which to choose: use AutoTask when you want something running quickly. Use TaskKit for production-leaning code where you want flexible task counts and clean config/lifecycle. For special needs, drop to the raw FreeRTOS API.
+- Which to choose: use AutoTask when you want something running quickly. Use ESP32TaskKit for production-leaning code where you want flexible task counts and clean config/lifecycle. For special needs, drop to the raw FreeRTOS API.
 
 ### When to use ESP32AutoSync
 - Completely independent library with no mutual dependency; both can call raw FreeRTOS APIs.
@@ -74,7 +74,7 @@ Notes:
 - `core=tskNO_AFFINITY` means no core pinning—leave it to the scheduler. Specify 0/1 if you want to pin.
 - `ARDUINO_RUNNING_CORE` is the core number Arduino `loop()` runs on (often 1). Use it if you want to run on the same core.
 - `priority` is FreeRTOS 0 (Idle) to `configMAX_PRIORITIES-1`. Arduino `loop()` is usually 1, so default 2. Use 2+ for tasks needing more real-time behavior.
-- `name` is the FreeRTOS task name (up to `configMAX_TASK_NAME_LEN`). If empty, an auto-incremented name like `TaskKit#1` is used. In Arduino this mainly shows up via `vTaskList` or a debugger rather than Serial logs.
+- `name` is the FreeRTOS task name (up to `configMAX_TASK_NAME_LEN`). If empty, an auto-incremented name like `ESP32TaskKit#1` is used. In Arduino this mainly shows up via `vTaskList` or a debugger rather than Serial logs.
 - Core validation: on dual core, only 0/1/tskNO_AFFINITY are allowed. On single core (`CONFIG_FREERTOS_UNICORE` etc.), only 0/tskNO_AFFINITY are allowed.
 
 ---
@@ -156,7 +156,7 @@ private:
 ### 6.1 C-style task
 
 ```cpp
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void WorkerTask(void* pv) {
     for (;;) {
@@ -166,7 +166,7 @@ void WorkerTask(void* pv) {
 }
 
 void setup() {
-    TaskKit::TaskConfig cfg;
+    ESP32TaskKit::TaskConfig cfg;
     cfg.name = "Worker";
     cfg.priority = 2;
 
@@ -179,7 +179,7 @@ void setup() {
 ### 6.2 Lambda task
 
 ```cpp
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 worker.startLoop(
     [] {
@@ -200,7 +200,7 @@ periodic.startLoop(
         readSensor();
         return true;
     },
-    TaskKit::TaskConfig{},
+    ESP32TaskKit::TaskConfig{},
     5000
 );
 ```
@@ -210,7 +210,7 @@ periodic.startLoop(
 ### 6.4 With AutoSync
 
 ```cpp
-TaskKit::Task consumer;
+ESP32TaskKit::Task consumer;
 AutoSync::Queue<int> q(8);
 
 consumer.startLoop(

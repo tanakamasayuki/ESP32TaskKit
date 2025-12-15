@@ -1,17 +1,17 @@
 #include <ESP32TaskKit.h>
 
-TaskKit::Task fastTask;
-TaskKit::Task slowTask;
+ESP32TaskKit::Task fastTask;
+ESP32TaskKit::Task slowTask;
 
 void setup()
 {
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
-  TaskKit::TaskConfig cfgFast;
+  ESP32TaskKit::TaskConfig cfgFast;
   // en: use defaults (auto name, priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
   // ja: デフォルトを使用（自動名、priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 
-  TaskKit::TaskConfig cfgSlow = cfgFast;
+  ESP32TaskKit::TaskConfig cfgSlow = cfgFast;
 
   fastTask.startLoop(
       []()

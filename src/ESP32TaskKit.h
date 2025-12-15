@@ -14,7 +14,7 @@
 #define ARDUINO_LOOP_STACK_SIZE 8192
 #endif
 
-namespace TaskKit
+namespace ESP32TaskKit
 {
 
     struct TaskConfig
@@ -120,7 +120,7 @@ namespace TaskKit
         if (!name || name[0] == '\0')
         {
             int id = ++_autoNameCounter;
-            std::snprintf(nameBuf, sizeof(nameBuf), "TaskKit#%d", id);
+            std::snprintf(nameBuf, sizeof(nameBuf), "ESP32TaskKit#%d", id);
             name = nameBuf;
         }
 
@@ -268,7 +268,7 @@ namespace TaskKit
         if (!name || name[0] == '\0')
         {
             int id = ++_autoNameCounter;
-            std::snprintf(nameBuf, sizeof(nameBuf), "TaskKit#%d", id);
+            std::snprintf(nameBuf, sizeof(nameBuf), "ESP32TaskKit#%d", id);
             name = nameBuf;
         }
 
@@ -310,4 +310,4 @@ namespace TaskKit
         return true;
     }
 
-} // namespace TaskKit
+} // namespace ESP32TaskKit

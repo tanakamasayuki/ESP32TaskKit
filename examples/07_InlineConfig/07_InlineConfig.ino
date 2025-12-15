@@ -1,6 +1,6 @@
 #include <ESP32TaskKit.h>
 
-TaskKit::Task inlineCfgTask;
+ESP32TaskKit::Task inlineCfgTask;
 
 void setup()
 {
@@ -14,7 +14,7 @@ void setup()
       },
       []()
       {
-        TaskKit::TaskConfig cfg;   // en: already has defaults / ja: 構造体にデフォルトが入っている
+        ESP32TaskKit::TaskConfig cfg;   // en: already has defaults / ja: 構造体にデフォルトが入っている
         cfg.name = "InlineCustom"; // en: custom name / ja: 任意の名前
         cfg.stackSize = 2048;      // en: smaller stack (words) for low memory / ja: 省メモリ用に小さめ（word 単位）
         cfg.priority = 0;          // en: idle priority / ja: アイドル優先度

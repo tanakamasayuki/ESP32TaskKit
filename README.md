@@ -20,7 +20,7 @@ Lightweight helpers for running FreeRTOS tasks from Arduino on ESP32.
 ```cpp
 #include <ESP32TaskKit.h>
 
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void setup() {
   Serial.begin(115200);
@@ -30,7 +30,7 @@ void setup() {
     Serial.println("working...");
     delay(100);
     return true;                  // continue
-  }, TaskKit::TaskConfig{}, 500); // run every 500 ms
+  }, ESP32TaskKit::TaskConfig{}, 500); // run every 500 ms
 }
 
 void loop() {
@@ -45,7 +45,7 @@ void loop() {
 
 ### C-style task with cooperative stop
 ```cpp
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void WorkerTask(void *pv) {
   for (;;) {

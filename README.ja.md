@@ -20,7 +20,7 @@ Arduino 上で ESP32 の FreeRTOS タスクを手軽に扱うための小さな�
 ```cpp
 #include <ESP32TaskKit.h>
 
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void setup() {
   Serial.begin(115200);
@@ -30,7 +30,7 @@ void setup() {
     Serial.println("working...");
     delay(100);
     return true;                  // 継続
-  }, TaskKit::TaskConfig{}, 500); // 500ms 周期
+  }, ESP32TaskKit::TaskConfig{}, 500); // 500ms 周期
 }
 
 void loop() {
@@ -45,7 +45,7 @@ void loop() {
 
 ### C スタイルタスクでの協調停止
 ```cpp
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void WorkerTask(void *pv) {
   for (;;) {

@@ -2,7 +2,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 const char *taskStateName(eTaskState s)
 {
@@ -35,7 +35,7 @@ void setup()
         delay(200);  // en: simulate work / ja: 処理を模擬
         return true; // en: continue / ja: 継続
       },
-      TaskKit::TaskConfig{}, // en: defaults / ja: デフォルト設定
+      ESP32TaskKit::TaskConfig{}, // en: defaults / ja: デフォルト設定
       5000);                 // en: 5s interval / ja: 5秒周期
 }
 

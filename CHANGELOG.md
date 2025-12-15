@@ -1,6 +1,8 @@
 # Changelog / 変更履歴
 
 ## Unreleased
+- (EN) Renamed public namespace from `TaskKit` to `ESP32TaskKit` for consistency with the library name
+- (JA) ライブラリ名に合わせて公開ネームスペースを `TaskKit` から `ESP32TaskKit` に変更
 
 ## 1.0.1
 - (EN) Updated release scripts

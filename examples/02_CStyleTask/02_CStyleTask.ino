@@ -1,6 +1,6 @@
 #include <ESP32TaskKit.h>
 
-TaskKit::Task worker;
+ESP32TaskKit::Task worker;
 
 void WorkerTask(void *pv)
 {
@@ -28,7 +28,7 @@ void setup()
 {
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
-  TaskKit::TaskConfig cfg;
+  ESP32TaskKit::TaskConfig cfg;
   // en: use defaults (auto name, priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
   // ja: デフォルトを使用（自動名、priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 

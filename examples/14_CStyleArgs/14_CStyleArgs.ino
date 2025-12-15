@@ -3,8 +3,8 @@
 #define LED_PIN_1 2
 #define LED_PIN_2 4
 
-TaskKit::Task blinkTask1;
-TaskKit::Task blinkTask2;
+ESP32TaskKit::Task blinkTask1;
+ESP32TaskKit::Task blinkTask2;
 
 struct BlinkArgs
 {
@@ -42,7 +42,7 @@ void setup()
   digitalWrite(LED_PIN_1, LOW);
   digitalWrite(LED_PIN_2, LOW);
 
-  TaskKit::TaskConfig cfg; // en: defaults / ja: デフォルト設定
+  ESP32TaskKit::TaskConfig cfg; // en: defaults / ja: デフォルト設定
 
   // en: start tasks, passing pin/period via args / ja: ピンと周期を引数経由で渡す
   blinkTask1.start(&BlinkTask, &blinkArgs1, cfg);
