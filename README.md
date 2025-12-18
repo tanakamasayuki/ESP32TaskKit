@@ -83,5 +83,10 @@ void setup() {
 - Cooperative stop: `requestStop()` only sets a flag; user code should exit loops when `isStopRequested()` becomes true.
 - This library targets Arduino for ESP32 and is not intended for ESP-IDF standalone use.
 
+## Related Libraries and When to Use Them
+- [ESP32AutoTask](https://github.com/tanakamasayuki/ESP32AutoTask) — Entry-level helper that runs tasks automatically when you define functions such as `LoopCore0_Low`. Great for a few simple tasks; not designed for large task counts.
+- [ESP32TaskKit](https://github.com/tanakamasayuki/ESP32TaskKit) — This library. Use it when you want explicit FreeRTOS task creation with C++ classes and per-task configuration.
+- [ESP32SyncKit](https://github.com/tanakamasayuki/ESP32SyncKit) — C++ wrappers for FreeRTOS Queue / Notify / Semaphore / Mutex. Combine it with any task manager (including this kit) when you need to exchange data or signals between tasks or interrupts.
+
 ## License
 See `LICENSE`.

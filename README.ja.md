@@ -83,5 +83,10 @@ void setup() {
 - 協調停止はフラグ方式です。`requestStop()` はフラグを立てるだけなので、`isStopRequested()` を見てループを抜けてください。
 - 本ライブラリは Arduino 環境向けであり、ESP-IDF 単体向けではありません。
 
+## 兄弟ライブラリと使い分け
+- [ESP32AutoTask](https://github.com/tanakamasayuki/ESP32AutoTask) — `LoopCore0_Low` などの関数を定義するだけでタスクが自動実行される入門向け。簡単な少数タスクに適し、大量のタスクには不向き。
+- [ESP32TaskKit](https://github.com/tanakamasayuki/ESP32TaskKit) — 本ライブラリ。C++ クラスと設定オブジェクトで FreeRTOS タスクを明示的に作りたいときに選択。
+- [ESP32SyncKit](https://github.com/tanakamasayuki/ESP32SyncKit) — FreeRTOS の Queue / Notify / Semaphore / Mutex の C++ ラッパー。タスク間や割り込みとのデータ・通知のやり取りが必要なときに、任意のタスク管理（このキットを含む）と組み合わせて利用。
+
 ## ライセンス
 `LICENSE` を参照してください。
