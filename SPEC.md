@@ -6,9 +6,9 @@ ESP32TaskKit is an **"intermediate-friendly task management library"** for ESP32
   → Just define weak declarations `LoopCoreX_YYY` and tasks are auto-generated—training wheels.  
   https://github.com/tanakamasayuki/ESP32AutoTask
 
-- For synchronization: **ESP32AutoSync**  
+- For synchronization: **ESP32SyncKit**  
   → C++ wrappers for FreeRTOS sync primitives such as Queue / Notify / Semaphore / Mutex.  
-  https://github.com/tanakamasayuki/ESP32AutoSync
+  https://github.com/tanakamasayuki/ESP32SyncKit
 
 - In between: **ESP32TaskKit**  
   → A kit that makes FreeRTOS tasks (`xTaskCreatePinnedToCore`, etc.) easier to manage with C++ classes and config objects.  
@@ -21,7 +21,7 @@ ESP32TaskKit is an **"intermediate-friendly task management library"** for ESP32
 - Limits of ESP32TaskKit: less automation than AutoTask, so you write a bit more up front. If you need special FreeRTOS operations, you are expected to call the raw APIs.
 - Which to choose: use AutoTask when you want something running quickly. Use ESP32TaskKit for production-leaning code where you want flexible task counts and clean config/lifecycle. For special needs, drop to the raw FreeRTOS API.
 
-### When to use ESP32AutoSync
+### When to use ESP32SyncKit
 - Completely independent library with no mutual dependency; both can call raw FreeRTOS APIs.
 - If you only need common Queue/Notify/Semaphore/Mutex, using AutoSync alongside is convenient. For special synchronization needs, call FreeRTOS directly.
 

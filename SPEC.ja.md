@@ -7,9 +7,9 @@ ESP32TaskKit は、ESP32（Arduino）向けの
   → 弱宣言 `LoopCoreX_YYY` を定義するだけでタスクが自動生成される「補助輪」
   https://github.com/tanakamasayuki/ESP32AutoTask
 
-- 同期用：**ESP32AutoSync**  
+- 同期用：**ESP32SyncKit**  
   → Queue / Notify / Semaphore / Mutex などの FreeRTOS 同期プリミティブの C++ ラッパ
-  https://github.com/tanakamasayuki/ESP32AutoSync
+  https://github.com/tanakamasayuki/ESP32SyncKit
 
 - その中間：**ESP32TaskKit**  
   → FreeRTOS のタスク (`xTaskCreatePinnedToCore` など) を  
@@ -25,7 +25,7 @@ ESP32TaskKit は、ESP32（Arduino）向けの
 - ESP32TaskKit の限界: AutoTask ほど自動化されていないので最初に少し書く必要がある。特殊な FreeRTOS 直接操作が必要な場合は素の API を使う前提。
 - 使い分け: 「簡単に動かしたい/まずは動作確認」なら AutoTask。タスクを柔軟に増やしたい・設定やライフサイクルをきれいに整えたい本番寄りのコードは ESP32TaskKit。さらに特殊な要件は素の FreeRTOS API へ。
 
-### ESP32AutoSync との使い分け
+### ESP32SyncKit との使い分け
 - 完全に独立したライブラリで相互依存はない。どちらも素の FreeRTOS API を直接呼んでよい。
 - 一般的な Queue/Notify/Semaphore/Mutex を使う範囲なら AutoSync を併用すると楽。特殊な同期が必要なら直接 FreeRTOS を使う。
 
