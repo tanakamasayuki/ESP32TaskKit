@@ -1,3 +1,5 @@
+// en: Run two workers with different periods
+// ja: 異なる周期の2つのタスクを動かす
 #include <ESP32TaskKit.h>
 
 ESP32TaskKit::Task fastTask;
@@ -13,6 +15,8 @@ void setup()
 
   ESP32TaskKit::TaskConfig cfgSlow = cfgFast;
 
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   fastTask.startLoop(
       []()
       {

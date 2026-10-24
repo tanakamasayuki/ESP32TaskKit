@@ -1,3 +1,5 @@
+// en: Observe a worker state and stack headroom
+// ja: タスクの状態とスタックの余裕を観察する
 #include <ESP32TaskKit.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -29,6 +31,8 @@ void setup()
 {
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   worker.startLoop(
       []()
       {
@@ -66,7 +70,9 @@ void loop()
     Serial.printf("taskNumber=%u\n", taskNumber);
 
 #if (INCLUDE_eTaskGetState == 1)
-    eTaskState st = eTaskGetState(h); // en: get FreeRTOS task state / ja: FreeRTOS のタスク状態を取得
+    // en: get FreeRTOS task state
+    // ja: FreeRTOS のタスク状態を取得
+    eTaskState st = eTaskGetState(h);
     Serial.printf("state=%s\n", taskStateName(st));
 #else
     Serial.println("eTaskGetState not available (INCLUDE_eTaskGetState==0)"); // en: not enabled in config / ja: 設定で無効な場合
@@ -75,7 +81,11 @@ void loop()
     UBaseType_t prio = uxTaskPriorityGet(h); // en: priority / ja: 優先度
     Serial.printf("priority=%u\n", prio);
 
-    UBaseType_t watermark = uxTaskGetStackHighWaterMark(h); // en: stack high-water mark (words) / ja: スタック余裕（word 単位）
+    // en: stack high-water mark (bytes on ESP32)
+    // ja: スタック余裕（ESP32ではbyte単位）
+    UBaseType_t watermark = uxTaskGetStackHighWaterMark(h);
+    // en: This legacy output label says words; ESP-IDF reports stack headroom in bytes.
+    // ja: 出力ラベルは旧来のwords表記ですが、ESP-IDFのスタック余裕はbyte単位です。
     Serial.printf("stackHighWaterMark(words)=%lu\n", static_cast<unsigned long>(watermark));
 
     // en: worker's core
@@ -124,7 +134,9 @@ void loop()
 #endif
 #endif
 
-    Serial.printf("isRunning=%d\n", worker.isRunning()); // en: library-managed running state / ja: ライブラリ管理の状態
+    // en: library-managed running state
+    // ja: ライブラリ管理の状態
+    Serial.printf("isRunning=%d\n", worker.isRunning());
   }
 
   delay(10); // en: small wait in main loop / ja: メインループの軽いウエイト

@@ -1,3 +1,5 @@
+// en: Print configured runtime statistics
+// ja: 設定で有効な実行時間統計を表示する
 #include <ESP32TaskKit.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -8,6 +10,8 @@ void setup()
 {
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   worker.startLoop(
       []()
       {

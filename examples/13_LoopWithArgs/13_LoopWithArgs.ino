@@ -1,3 +1,5 @@
+// en: Pass persistent application data to a loop callback
+// ja: 寿命を保ったアプリの値をループ処理へ渡す
 #include <ESP32TaskKit.h>
 
 #define LED_PIN_1 2
@@ -29,6 +31,8 @@ void setup()
   ESP32TaskKit::TaskConfig cfg; // en: defaults / ja: デフォルト設定
 
   // en: task #1 uses LED_PIN_1 / ja: タスク1 は LED_PIN_1 を使用
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   blinkTask1.startLoop(
       []()
       {

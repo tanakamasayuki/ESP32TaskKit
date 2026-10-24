@@ -5,6 +5,8 @@
 
 Arduino 上で ESP32 の FreeRTOS タスクを手軽に扱うための小さなヘルパーです。
 
+初めて使う場合は[サンプル入門ガイド](docs/GUIDE_EXAMPLES.ja.md)と[各例の日英README](examples/README.ja.md)を参照してください。準備、APIの流れ、確認方法、組み込み時の注意を説明しています。
+
 ## 特長
 - C スタイル関数で開始する `start` と、ラムダ/ファンクタでループを書く `startLoop`
 - `requestStop()` と `isStopRequested()` による協調的な停止

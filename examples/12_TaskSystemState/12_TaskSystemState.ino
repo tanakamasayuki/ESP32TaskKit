@@ -1,3 +1,5 @@
+// en: Inspect tasks using the system-state API
+// ja: System State APIでタスク群を調べる
 #include <ESP32TaskKit.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -27,6 +29,8 @@ void setup()
 {
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   worker.startLoop(
       []()
       {
@@ -68,7 +72,9 @@ void loop()
 #else
         Serial.print(" core=N/A"); // en: core info disabled / ja: コア取得無効
 #endif
-        Serial.printf(" runtime=%lu\n", static_cast<unsigned long>(t.ulRunTimeCounter)); // en: runtime counter (0 if disabled) / ja: ランタイム（無効設定なら0）
+        // en: runtime counter (0 if disabled)
+        // ja: ランタイム（無効設定なら0）
+        Serial.printf(" runtime=%lu\n", static_cast<unsigned long>(t.ulRunTimeCounter));
       }
       vPortFree(arr); // en: free FreeRTOS allocation / ja: FreeRTOS の確保を解放
     }

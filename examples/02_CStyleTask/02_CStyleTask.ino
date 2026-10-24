@@ -1,3 +1,5 @@
+// en: Start a C-style FreeRTOS worker function
+// ja: C形式のFreeRTOSタスク関数を開始する
 #include <ESP32TaskKit.h>
 
 ESP32TaskKit::Task worker;
@@ -32,6 +34,8 @@ void setup()
   // en: use defaults (auto name, priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
   // ja: デフォルトを使用（自動名、priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 
+  // en: Start work using the configured entry point; the context and objects must remain valid while it runs.
+  // ja: 設定した入口から処理を開始します。実行中はコンテキストとオブジェクトの寿命を保ちます。
   worker.start(&WorkerTask, nullptr, cfg);
 }
 

@@ -1,3 +1,5 @@
+// en: Inspect task status records from a system snapshot
+// ja: システムのスナップショットからタスク情報を調べる
 #include <ESP32TaskKit.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -27,6 +29,8 @@ void setup()
 {
   Serial.begin(115200); // en: start serial / ja: シリアル開始
 
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   worker.startLoop(
       []()
       {
@@ -53,7 +57,9 @@ void loop()
 #if (configUSE_TRACE_FACILITY == 1)
 #if defined(pxGetTaskStatusArray)
     UBaseType_t arraySize = 0;
-    TaskStatus_t *arr = pxGetTaskStatusArray(&arraySize); // en: returns heap array (free with vPortFree) / ja: ヒープ配列を取得（vPortFree で解放）
+    // en: returns heap array (free with vPortFree)
+    // ja: ヒープ配列を取得（vPortFree で解放）
+    TaskStatus_t *arr = pxGetTaskStatusArray(&arraySize);
     if (arr)
     {
       Serial.printf("tasks=%lu\n", static_cast<unsigned long>(arraySize));
@@ -70,7 +76,9 @@ void loop()
 #else
         Serial.print(" core=N/A"); // en: core info disabled / ja: コア取得無効
 #endif
-        Serial.printf(" runtime=%lu\n", static_cast<unsigned long>(t.ulRunTimeCounter)); // en: runtime counter (0 if disabled) / ja: ランタイム（無効設定なら0）
+        // en: runtime counter (0 if disabled)
+        // ja: ランタイム（無効設定なら0）
+        Serial.printf(" runtime=%lu\n", static_cast<unsigned long>(t.ulRunTimeCounter));
       }
       vPortFree(arr); // en: free FreeRTOS allocation / ja: FreeRTOS の確保を解放
     }
@@ -79,8 +87,12 @@ void loop()
       Serial.println("pxGetTaskStatusArray returned null (allocation failed?)"); // en: failed to get array / ja: 配列取得に失敗
     }
 #else
-    Serial.println("pxGetTaskStatusArray not available on this platform; using uxTaskGetSystemState fallback"); // en: API missing; fallback / ja: APIが無い場合はフォールバック
-    UBaseType_t count = uxTaskGetNumberOfTasks();                                                               // en: estimate current number (may trim if count changes) / ja: 現在のタスク数を見積もり（途中で増減すると切り詰められることがある）
+    // en: API missing; fallback
+    // ja: APIが無い場合はフォールバック
+    Serial.println("pxGetTaskStatusArray not available on this platform; using uxTaskGetSystemState fallback");
+    // en: estimate current number (may trim if count changes)
+    // ja: 現在のタスク数を見積もり（途中で増減すると切り詰められることがある）
+    UBaseType_t count = uxTaskGetNumberOfTasks();
     TaskStatus_t *arr = static_cast<TaskStatus_t *>(pvPortMalloc(count * sizeof(TaskStatus_t)));
     if (arr)
     {
@@ -99,7 +111,9 @@ void loop()
 #else
         Serial.print(" core=N/A"); // en: core info disabled / ja: コア取得無効
 #endif
-        Serial.printf(" runtime=%lu\n", static_cast<unsigned long>(t.ulRunTimeCounter)); // en: runtime counter (0 if disabled) / ja: ランタイム（無効設定なら0）
+        // en: runtime counter (0 if disabled)
+        // ja: ランタイム（無効設定なら0）
+        Serial.printf(" runtime=%lu\n", static_cast<unsigned long>(t.ulRunTimeCounter));
       }
       vPortFree(arr);
     }

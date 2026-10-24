@@ -20,7 +20,9 @@ namespace ESP32TaskKit
     struct TaskConfig
     {
         const char *name = "";
-        uint32_t stackSize = ARDUINO_LOOP_STACK_SIZE; // 8192 words
+        // en: ESP-IDF task stack allocation is measured in bytes.
+        // ja: ESP-IDFのタスク用Stack容量はbyte単位です。
+        uint32_t stackSize = ARDUINO_LOOP_STACK_SIZE;
         UBaseType_t priority = 2;
         int core = tskNO_AFFINITY;
     };

@@ -5,6 +5,8 @@ English specification: [SPEC.md](SPEC.md)
 
 Lightweight helpers for running FreeRTOS tasks from Arduino on ESP32.
 
+Start with the [example workflow](docs/GUIDE_EXAMPLES.md) and [individual example READMEs](examples/README.md) for setup, API sequence, verification and adaptation notes.
+
 ## Highlights
 - Start tasks with either a C-style function (`start`) or a C++ functor/lambda loop (`startLoop`)
 - Cooperative stop via `requestStop()` and `isStopRequested()`

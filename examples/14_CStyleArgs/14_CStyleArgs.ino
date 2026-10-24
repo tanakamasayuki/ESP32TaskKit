@@ -1,3 +1,5 @@
+// en: Pass a context pointer to a C-style task
+// ja: C形式のタスクへコンテキストのポインタを渡す
 #include <ESP32TaskKit.h>
 
 #define LED_PIN_1 2
@@ -45,6 +47,8 @@ void setup()
   ESP32TaskKit::TaskConfig cfg; // en: defaults / ja: デフォルト設定
 
   // en: start tasks, passing pin/period via args / ja: ピンと周期を引数経由で渡す
+  // en: Start work using the configured entry point; the context and objects must remain valid while it runs.
+  // ja: 設定した入口から処理を開始します。実行中はコンテキストとオブジェクトの寿命を保ちます。
   blinkTask1.start(&BlinkTask, &blinkArgs1, cfg);
   blinkTask2.start(&BlinkTask, &blinkArgs2, cfg);
 }

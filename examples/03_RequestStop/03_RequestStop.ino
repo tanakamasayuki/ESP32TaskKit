@@ -1,3 +1,5 @@
+// en: Request cooperative termination of a loop worker
+// ja: ループタスクへ協調的な停止を要求する
 #include <ESP32TaskKit.h>
 
 ESP32TaskKit::Task worker;
@@ -11,6 +13,8 @@ void setup()
   // en: use defaults (auto name, priority=2, stack=ARDUINO_LOOP_STACK_SIZE, core=tskNO_AFFINITY)
   // ja: デフォルトを使用（自動名、priority=2、stack=ARDUINO_LOOP_STACK_SIZE、core=tskNO_AFFINITY）
 
+  // en: Start a repeating callback; true continues and false finishes. Check creation success and keep referenced context alive.
+  // ja: trueで継続、falseで終了する繰り返し処理を開始します。生成の成否と参照するコンテキストの寿命を確認します。
   worker.startLoop(
       []()
       {
@@ -31,6 +35,8 @@ void loop()
   if (worker.isRunning() && millis() - startedAt > 5000)
   {
     Serial.println("requestStop()");
+    // en: Request cooperative termination; the worker must reach a stop check before it can finish.
+    // ja: 協調的な終了を要求します。ワーカーが停止確認へ進むまで終了しません。
     worker.requestStop();
   }
 
